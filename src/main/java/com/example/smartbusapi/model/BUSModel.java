@@ -7,24 +7,27 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BUSModel {
-    private String document;
+    private String documentId;
     private String id;
     private String name;
     private boolean booleans;
 
-    public BUSModel(String document, String id, String name, boolean booleans) {
-        this.document = document;
+    public BUSModel() {
+    }
+
+    public BUSModel(String documentId, String id, String name, boolean booleans) {
+        this.documentId = documentId;
         this.id = id;
         this.name = name;
         this.booleans = booleans;
     }
 
-    public String getDocument() {
-        return document;
+    public String getDocumentId() {
+        return documentId;
     }
 
-    public void setDocument(String document) {
-        this.document = document;
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getId() {

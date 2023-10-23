@@ -22,8 +22,9 @@ public class BUSController {
     }
 
     @GetMapping("/get")
-    public String getBUS(@RequestParam String document) throws InterruptedException, ExecutionException{
-        return busService.getBUS(document);
+    public BUSModel getBUS(@RequestParam String documentId) throws InterruptedException, ExecutionException{
+        System.out.println("입력" + documentId);
+        return busService.getBUS(documentId);
     }
 
     @PutMapping("/update")
@@ -32,8 +33,8 @@ public class BUSController {
     }
 
     @DeleteMapping("/delete")
-    public String deleteBUS(@RequestParam String document) throws InterruptedException, ExecutionException{
-        return busService.deleteBUS(document);
+    public String deleteBUS(@RequestParam String documentId) throws InterruptedException, ExecutionException{
+        return busService.deleteBUS(documentId);
     }
 
     @GetMapping("/test")
