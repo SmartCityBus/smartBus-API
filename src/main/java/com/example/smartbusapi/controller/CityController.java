@@ -58,7 +58,7 @@ public class CityController {
         ObjectMapper objectMapper = new ObjectMapper();
         // sb에 JSON 데이터를 저장
         JsonNode rootNode = objectMapper.readTree(sb.toString());
-        // "response" 객체 안에 "body" 객체, "items" 배열 등으로 이동하며 원하는 데이터 추출
+        // "response" 객체 안에 "body" 객체, "items" 배열, "item"배열 등으로 이동하며 원하는 데이터 추출
         JsonNode response = rootNode.get("response");
         System.out.println("response : " + response);
         if (response != null) {
@@ -71,12 +71,10 @@ public class CityController {
                     // "item" 객체 가져오기
                     JsonNode item = items.get("item");
                     System.out.println("item : " + item);
-                    System.out.println(item != null);
-                    System.out.println(item.isArray());
-                    System.out.println(item.size());
-
-                    // city를 저장할 리스트 생성
-                    List<City> cityList = new ArrayList<>();
+                    // item이 비어있는가, 배열인가, 사이즈가 있는가 확인하는 문장 필요시 주석 제거
+//                    System.out.println(item != null);
+//                    System.out.println(item.isArray());
+//                    System.out.println(item.size());
                     if (item != null && item.isArray() && item.size() > 0) {
                         for (int i = 0; i < item.size(); i++) {
                             JsonNode curItem = item.get(i);
@@ -89,9 +87,10 @@ public class CityController {
                                 String cityname = cityNameNode.asText();
                                 String citycode = cityCodeNode.asText();
                                 // cityname와 citycode를 City 컬렉션에 설정
-                                // cityName 속성에 / 문자가 포함되어 있는 경우, 이를 - 문자로 대체
-                                city.setCityName(cityname.replace("/", "-"));
-                                city.setCityCode(citycode);
+                                // cityname 속성에 / 문자가 포함되어 있는 경우, 이를 - 문자로 대체
+                                // NOSQL에는 / 문자를 넣을 수 없기 때문이다.
+                                city.setCityname(cityname.replace("/", "-"));
+                                city.setCitycode(citycode);
                                 cityService.createCity(city);
                             }
                         }
@@ -99,14 +98,12 @@ public class CityController {
                 }
             }
         }
-//        System.out.println(sb.toString());
-
         return "api db에 저장 완료";
     }
 
     @GetMapping("/get/city")
     public City getCity(@RequestParam String cityname) throws InterruptedException, ExecutionException{
-        System.out.println("입력" + cityname);
+        System.out.println("보낸 cityname : " + cityname);
         return cityService.getCity(cityname);
     }
 
@@ -118,11 +115,6 @@ public class CityController {
     @DeleteMapping("/delete/city")
     public String deleteCity(@RequestParam String cityname) throws InterruptedException, ExecutionException{
         return cityService.deleteCity(cityname);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> testGetEndPoint(){
-        return ResponseEntity.ok("테스트 완료");
     }
 
 }

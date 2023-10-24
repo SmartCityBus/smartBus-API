@@ -17,12 +17,12 @@ public class CityService {
     public String createCity(City city) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("City")
-                .document(city.getCityName()).set(city);
+                .document(city.getCityname()).set(city);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
     public City getCity(String cityname) throws ExecutionException, InterruptedException {
-        System.out.println("받음" + cityname);
+        System.out.println("받은 cityname : " + cityname);
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection("City").document(cityname);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
@@ -37,7 +37,7 @@ public class CityService {
 
     public String updateCity(City city) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionApiFuture = dbFirestore.collection("City").document(city.getCityName()).set(city);
+        ApiFuture<WriteResult> collectionApiFuture = dbFirestore.collection("City").document(city.getCityname()).set(city);
         return collectionApiFuture.get().getUpdateTime().toString();
     }
 
