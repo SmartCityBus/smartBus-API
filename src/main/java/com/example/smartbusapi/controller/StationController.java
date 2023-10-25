@@ -6,9 +6,7 @@ import com.example.smartbusapi.service.StationService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -101,6 +99,22 @@ public class StationController {
         }
 
         return "api db에 저장 완료";
+    }
+
+    @GetMapping("/get/station")
+    public Station getStation(@RequestParam String nodenm) throws InterruptedException, ExecutionException{
+        System.out.println("입력" + nodenm);
+        return stationService.getStation(nodenm);
+    }
+
+    @PutMapping("/update/station")
+    public String updateStation(@RequestBody Station station) throws InterruptedException, ExecutionException{
+        return stationService.updateStation(station);
+    }
+
+    @DeleteMapping("/delete/station")
+    public String deleteStation(@RequestParam String nodenm) throws InterruptedException, ExecutionException{
+        return stationService.deleteStation(nodenm);
     }
     
     // 정류소 DB저장을 처리하는 함수
