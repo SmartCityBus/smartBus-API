@@ -107,6 +107,11 @@ public class StationController {
         return stationService.getStation(nodenm);
     }
 
+    @GetMapping("/get/station/all")
+    public List<Station> getStationList() throws InterruptedException, ExecutionException{
+        return stationService.getStationList();
+    }
+
     @PutMapping("/update/station")
     public String updateStation(@RequestBody Station station) throws InterruptedException, ExecutionException{
         return stationService.updateStation(station);
