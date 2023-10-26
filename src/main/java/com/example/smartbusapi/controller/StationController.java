@@ -1,6 +1,5 @@
 package com.example.smartbusapi.controller;
 
-import com.example.smartbusapi.model.City;
 import com.example.smartbusapi.model.Station;
 import com.example.smartbusapi.service.StationService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,7 +13,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -37,7 +35,6 @@ public class StationController {
         List<String> stationNms = Arrays.asList("대구대(정문1)", "대구대(정문2)", "대구대서문", "내리리입구", "상림리", "대구대삼거리(대구방향)");
         // 요청에 사용할 이름 리스트
         List<String> searchNms = Arrays.asList("대구대", "내리리", "상림리");
-//        List<String> stationNos = Arrays.asList("12114", "12113", "12111", "", "12109", "12107");
         for (String searchNm : searchNms) {
             StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnNoList"); /*URL*/
             urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=" + serviceKey); /*Service Key*/
