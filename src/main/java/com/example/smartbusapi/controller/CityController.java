@@ -31,7 +31,7 @@ public class CityController {
     public String createCity(@RequestBody City city) throws InterruptedException, ExecutionException, IOException {
         // OpenAPI 도시코드 목록 조회
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1613000/BusLcInfoInqireService/getCtyCodeList"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" +serviceKey); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + serviceKey); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8")); /*데이터 타입(xml, json)*/
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -111,7 +111,7 @@ public class CityController {
     }
 
     @DeleteMapping("/delete/city")
-    public String deleteCity(@RequestParam String cityname) throws InterruptedException, ExecutionException{
+    public String deleteCity(@RequestParam String cityname) {
         return cityService.deleteCity(cityname);
     }
 

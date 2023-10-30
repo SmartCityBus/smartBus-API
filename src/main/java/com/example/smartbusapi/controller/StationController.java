@@ -100,7 +100,7 @@ public class StationController {
 
     @GetMapping("/get/station")
     public Station getStation(@RequestParam String nodenm) throws InterruptedException, ExecutionException{
-        System.out.println("입력" + nodenm);
+        System.out.println("보낸 nodenm : " + nodenm);
         return stationService.getStation(nodenm);
     }
 
@@ -115,7 +115,7 @@ public class StationController {
     }
 
     @DeleteMapping("/delete/station")
-    public String deleteStation(@RequestParam String nodenm) throws InterruptedException, ExecutionException{
+    public String deleteStation(@RequestParam String nodenm) {
         return stationService.deleteStation(nodenm);
     }
     

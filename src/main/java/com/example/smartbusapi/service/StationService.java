@@ -21,7 +21,7 @@ public class StationService {
     }
 
     public Station getStation(String nodenm) throws ExecutionException, InterruptedException {
-        System.out.println("받음" + nodenm);
+        System.out.println("받은 nodenm : " + nodenm);
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection("Station").document(nodenm);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
