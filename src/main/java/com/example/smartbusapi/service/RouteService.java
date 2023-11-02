@@ -20,7 +20,7 @@ public class RouteService {
     }
 
     public Route getRoute(String routeid) throws ExecutionException, InterruptedException {
-        System.out.println("받음" + routeid);
+        System.out.println("받은 routeid : " + routeid);
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection("Route").document(routeid);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
