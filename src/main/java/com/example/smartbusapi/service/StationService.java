@@ -13,10 +13,10 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class StationService {
 
-    public String createStation(Station station) throws ExecutionException, InterruptedException {
+    public String createStation(Station station, String city) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("Station")
-                .document(station.getNodenm()).set(station);
+                .document(station.getNodenm() + "-" + city).set(station);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
