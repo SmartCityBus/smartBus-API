@@ -22,7 +22,7 @@ public class VehicleService {
     }
 
     public Vehicle getVehicle(@RequestParam String vehicleno) throws InterruptedException, ExecutionException {
-        System.out.println("받음" + vehicleno);
+        System.out.println("받은 vehicleno : " + vehicleno);
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection("vehicleno").document(vehicleno);
         ApiFuture<DocumentSnapshot> future = documentReference.get();

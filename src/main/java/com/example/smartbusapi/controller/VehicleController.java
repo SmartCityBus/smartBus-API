@@ -40,6 +40,7 @@ public class VehicleController {
 
     @GetMapping("/get/vehicle")
     public Vehicle getVehicle(@RequestParam String vehicleno) throws InterruptedException, ExecutionException {
+        System.out.println("보낸 vehicleno : " + vehicleno);
         return vehicleService.getVehicle(vehicleno);
     }
 
@@ -51,6 +52,26 @@ public class VehicleController {
     @PutMapping("/update/vehicle")
     public String updateVehicle(@RequestBody Vehicle vehicle) throws InterruptedException, ExecutionException {
         return vehicleService.updateVehicle(vehicle);
+    }
+
+    // 혼잡도(congestion) 바꾸기
+    @PutMapping("/update/congestion/{vehicleno}/{congestion}")
+    public String updateCongestion(@PathVariable String vehicleno, @PathVariable String congestion) throws InterruptedException, ExecutionException {
+        // 기존 vehicleno 정보 가져오기 -> existingVehicle(eVehicle)
+        Vehicle eVehicle = vehicleService.getVehicle(vehicleno);
+
+        if (eVehicle != null) {
+            // 입력받은 혼잡도 설정
+            eVehicle.setCongestion(congestion);
+            try {
+                vehicleService.updateVehicle(eVehicle);
+                return "vehicleno : " + vehicleno + "의 혼잡도 " + congestion + "로 변경";
+            } catch (Exception e) {
+                return "vehicleno : " + vehicleno + "의 혼잡도 변경 실패";
+            }
+        } else {
+            return "vehicleno : " + vehicleno + "가 존재하지 않음";
+        }
     }
 
     @DeleteMapping("/delete/vehicle")
