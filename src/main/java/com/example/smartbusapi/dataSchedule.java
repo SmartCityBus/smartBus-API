@@ -23,7 +23,7 @@ public class dataSchedule {
     public void scheduled_route() {
         try {
             System.out.println("route 스케줄러 실행");
-            routeController.createStation(new Route());
+            routeController.createRoute(new Route());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -28,7 +28,7 @@ public class RouteController {
     public RouteController(RouteService routeService) { this.routeService = routeService; }
 
     @PostMapping("/create/route")
-    public String createStation(@RequestBody Route route)throws InterruptedException, ExecutionException, IOException {
+    public String createRoute(@RequestBody Route route)throws InterruptedException, ExecutionException, IOException {
         getRouteData(route);
         return "api db에 저장 완료";
     }
