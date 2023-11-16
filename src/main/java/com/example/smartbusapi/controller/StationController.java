@@ -29,7 +29,7 @@ public class StationController {
         this.stationService = stationService;
     }
 
-    @PostMapping("create/station")
+    @PostMapping("/create/station")
     public String createStation(@RequestBody Station station) throws InterruptedException, ExecutionException, IOException {
         getStationData(station);
         return "api db에 저장 완료";
@@ -82,7 +82,7 @@ public class StationController {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Content-type", "application/json");
-                System.out.println("Response code: " + conn.getResponseCode());
+//                System.out.println("Response code: " + conn.getResponseCode());
                 BufferedReader rd;
                 if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
                     rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
