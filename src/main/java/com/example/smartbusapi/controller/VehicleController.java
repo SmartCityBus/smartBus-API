@@ -108,6 +108,11 @@ public class VehicleController {
                     rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
                 }
                 StringBuilder sb = new StringBuilder();
+                // sb가 null뜨는 경우 오류 방지 코드
+                if (sb == null) {
+                    System.out.println("sb null");
+                    return;
+                }
                 String line;
                 while ((line = rd.readLine()) != null) {
                     sb.append(line);
@@ -117,32 +122,34 @@ public class VehicleController {
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode rootNode = objectMapper.readTree(sb.toString());
-                JsonNode response = rootNode.get("response");
+                if (rootNode != null) {
+                    JsonNode response = rootNode.get("response");
 //                System.out.println("response : " + response);
-                if (response != null) {
-                    JsonNode body = response.get("body");
+                    if (response != null) {
+                        JsonNode body = response.get("body");
 //                    System.out.println("body : " + body);
-                    if (body != null) {
-                        JsonNode items = body.get("items");
+                        if (body != null) {
+                            JsonNode items = body.get("items");
 //                        System.out.println("items : " + items);
-                        if (items != null) {
-                            // "item" 객체 가져오기
-                            JsonNode item = items.get("item");
-                            System.out.println("item : " + item);
-                            // 검색 결과가 단일 결과, 다중 결과로 나오기 때문에 조건에 따라 처리
-                            if (item != null) {
-                                if (item.isArray() && item.size() > 0) {
-                                    for (int i = 0; i < item.size(); i++) {
-                                        JsonNode curItem = item.get(i);
-                                        if (checkData(curItem)) {
-                                            System.out.println(curItem + " 미 중복 추가 완료");
-                                            processVehicle(curItem, vehicle);
+                            if (items != null) {
+                                // "item" 객체 가져오기
+                                JsonNode item = items.get("item");
+//                                System.out.println("item : " + item);
+                                // 검색 결과가 단일 결과, 다중 결과로 나오기 때문에 조건에 따라 처리
+                                if (item != null) {
+                                    if (item.isArray() && item.size() > 0) {
+                                        for (int i = 0; i < item.size(); i++) {
+                                            JsonNode curItem = item.get(i);
+                                            if (checkData(curItem)) {
+                                                System.out.println(curItem + " 미 중복 추가 완료");
+                                                processVehicle(curItem, vehicle);
+                                            }
                                         }
-                                    }
-                                } else {
-                                    if (checkData(item)) {
-                                        System.out.println(item + " 미 중복 추가 완료");
-                                        processVehicle(item, vehicle);
+                                    } else {
+                                        if (checkData(item)) {
+                                            System.out.println(item + " 미 중복 추가 완료");
+                                            processVehicle(item, vehicle);
+                                        }
                                     }
                                 }
                             }
