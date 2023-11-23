@@ -19,7 +19,7 @@ public class SmartBusApiApplication {
         try{
             ClassLoader classLoader = SmartBusApiApplication.class.getClassLoader();
 
-            FileInputStream serviceAccount = new FileInputStream("C:\\IdeaProjects\\smartBus-API\\src\\main\\resources\\serviceAccountKey.json");//json파일 경로
+            FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccountKey.json");//json파일 경로
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setDatabaseUrl("https:/du-smart-bus.firebaseio.com/") //db url
