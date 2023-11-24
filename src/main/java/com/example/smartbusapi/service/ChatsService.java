@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ChatsService {
@@ -87,23 +90,34 @@ public class ChatsService {
         return "삭제 성공 : " + vehicleno;
     }
 
-    // 요청 받으면 60분 마다 해당 차량 번호 채팅방의 0번 인덱스를 삭제
+    // 요청 받으면 60초 마다 해당 차량 번호 채팅방의 0번 인덱스를 삭제
     public String deleteText(String vehicleno) throws ExecutionException, InterruptedException {
-        Firestore dbFirestore = FirestoreClient.getFirestore();
-        // 해당 차량 번호에 대한 채팅 정보를 가져옴
-        Chats chats = getChats(vehicleno);
-        if (chats != null) {
-            List<Map<String, Object>> messages = chats.getMessages();
-            // messages가 null이 아니고 비어 있지 않은 경우 0번 인덱스 삭제
-            if (messages != null && !messages.isEmpty()) {
-                messages.remove(0);
-                // 업데이트된 메시지 리스트를 다시 저장
-                updateText(chats, vehicleno);
-                return "60분 후 텍스트 삭제 완료";
-            } else {
-                return vehicleno + "번 메시지 삭제 실패";
+        // 스케줄링을 위한 ScheduledExecutorService 생성
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        // 해당 차량 번호에 대한 스케줄링 작업 예약
+        scheduler.schedule(() -> {
+            try {
+                // 채팅 정보 가져오기
+                Chats chats = getChats(vehicleno);
+                if (chats != null) {
+                    List<Map<String, Object>> messages = chats.getMessages();
+                    // messages가 null이 아니고 비어 있지 않은 경우 0번 인덱스 삭제
+                    if (messages != null && !messages.isEmpty()) {
+                        messages.remove(0);
+                        // 업데이트된 메시지 리스트를 다시 저장
+                        updateText(chats, vehicleno);
+                        System.out.println(vehicleno + "번 메시지 삭제 완료");
+                    } else {
+                        System.out.println(vehicleno + "번 메시지 삭제 실패");
+                    }
+                } else {
+                    System.out.println(vehicleno + "번 채팅이 존재하지 않음");
+                }
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
             }
-        }
-        return vehicleno + "번 채팅이 존재하지 않음";
+        }, 60, TimeUnit.MINUTES);
+
+        return vehicleno + "번의 채팅 삭제";
     }
 }
