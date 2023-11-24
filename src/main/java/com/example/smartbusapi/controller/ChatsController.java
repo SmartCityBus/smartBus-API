@@ -46,4 +46,9 @@ public class ChatsController {
     public String deleteText(@PathVariable String vehicleno) throws ExecutionException, InterruptedException {
         return chatsService.deleteText(vehicleno);
     }
+
+    @GetMapping("/update/time/{time}")
+    public String updateTime(@PathVariable int time) {
+        return chatsService.updateTime(time);
+    }
 }

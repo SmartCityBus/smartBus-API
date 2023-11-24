@@ -90,7 +90,8 @@ public class ChatsService {
         return "삭제 성공 : " + vehicleno;
     }
 
-    // 요청 받으면 60초 마다 해당 차량 번호 채팅방의 0번 인덱스를 삭제
+    private int setTime = 60;
+    // 요청 받으면 설정 해놓은 시간(setTime) 마다 해당 차량 번호 채팅방의 0번 인덱스를 삭제
     public String deleteText(String vehicleno) throws ExecutionException, InterruptedException {
         // 스케줄링을 위한 ScheduledExecutorService 생성
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -116,8 +117,14 @@ public class ChatsService {
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
-        }, 60, TimeUnit.MINUTES);
+        }, setTime, TimeUnit.MINUTES);
 
         return vehicleno + "번의 채팅 삭제";
+    }
+
+    // 설정 해놓은 시간(setTime) 변경하는 함수
+    public String updateTime(int time) {
+        setTime = time;
+        return time + "로 time 변경 완료.";
     }
 }
