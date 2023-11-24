@@ -22,24 +22,28 @@ public class ChatsController {
     }
 
     @GetMapping("/get/chats")
-    public Chats getCity(@RequestParam String vehicleno) throws InterruptedException, ExecutionException {
-        System.out.println("보낸 id : " + vehicleno);
+    public Chats getChats(@RequestParam String vehicleno) throws InterruptedException, ExecutionException {
+        System.out.println("보낸 vehicleno : " + vehicleno);
         return chatsService.getChats(vehicleno);
     }
 
     @GetMapping("/get/chats/all")
-    public List<Chats> getChatsList() throws InterruptedException, ExecutionException{
+    public List<Chats> getChatsList() throws InterruptedException, ExecutionException {
         return chatsService.getChatsList();
     }
 
     @PutMapping("/update/chats")
-    public String updateCity(@RequestBody Chats chats) throws InterruptedException, ExecutionException{
+    public String updateChats(@RequestBody Chats chats) throws InterruptedException, ExecutionException {
         return chatsService.updateChats(chats);
     }
 
     @DeleteMapping("/delete/chats")
-    public String deleteCity(@RequestParam String vehicleno) {
+    public String deleteChats(@RequestParam String vehicleno) {
         return chatsService.deleteChats(vehicleno);
     }
 
+    @DeleteMapping("/delete/text/{vehicleno}")
+    public String deleteText(@PathVariable String vehicleno) throws ExecutionException, InterruptedException {
+        return chatsService.deleteText(vehicleno);
+    }
 }
