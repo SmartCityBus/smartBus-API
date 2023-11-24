@@ -93,32 +93,39 @@ public class ChatsService {
     private int setTime = 60;
     // 요청 받으면 설정 해놓은 시간(setTime) 마다 해당 차량 번호 채팅방의 0번 인덱스를 삭제
     public String deleteText(String vehicleno) throws ExecutionException, InterruptedException {
-        // 스케줄링을 위한 ScheduledExecutorService 생성
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        // 해당 차량 번호에 대한 스케줄링 작업 예약
-        scheduler.schedule(() -> {
-            try {
-                // 채팅 정보 가져오기
-                Chats chats = getChats(vehicleno);
-                if (chats != null) {
+        // 채팅 정보 가져오기
+        Chats chats = getChats(vehicleno);
+        if (chats != null) {
+            // 스케줄링을 위한 ScheduledExecutorService 생성
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            // 해당 차량 번호에 대한 스케줄링 작업 예약
+            scheduler.schedule(() -> {
+                try {
                     List<Map<String, Object>> messages = chats.getMessages();
                     // messages가 null이 아니고 비어 있지 않은 경우 0번 인덱스 삭제
                     if (messages != null && !messages.isEmpty()) {
                         messages.remove(0);
+                        if (messages.isEmpty()) {
+                            deleteChats(vehicleno);
+                            System.out.println(vehicleno + "번 채팅방 삭제");
+                            return;
+                        }
                         // 업데이트된 메시지 리스트를 다시 저장
                         updateText(chats, vehicleno);
                         System.out.println(vehicleno + "번 메시지 삭제 완료");
                     } else {
                         System.out.println(vehicleno + "번 메시지 삭제 실패");
                     }
-                } else {
-                    System.out.println(vehicleno + "번 채팅이 존재하지 않음");
-                }
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        }, setTime, TimeUnit.MINUTES);
 
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, setTime, TimeUnit.MINUTES);
+        } else {
+            System.out.println(vehicleno + "번 채팅방이 존재하지 않음");
+            return vehicleno + "번의 채팅방이 존재하지 않음";
+        }
+        
         return vehicleno + "번의 채팅 삭제";
     }
 
