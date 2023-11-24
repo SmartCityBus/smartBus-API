@@ -25,7 +25,6 @@ public class dataSchedule {
     public void setRunScheduledTasks(boolean runScheduledTasks) {
         this.runScheduledTasks = runScheduledTasks;
     }
-
     // 일정 주기마다 route, vehicle 최신화 하는 함수
     @Scheduled(fixedDelay = 60000) // 10분
     public void scheduled_route() {
@@ -34,7 +33,7 @@ public class dataSchedule {
                 System.out.println("Route 스케줄러 실행");
                 routeController.createRoute(new Route());
             } else {
-                System.out.println("Route 스케줄러 건너뛰기");
+//                System.out.println("Route 스케줄러 건너뛰기");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,7 +48,7 @@ public class dataSchedule {
                 System.out.println("Vehicle 스케줄러 실행");
                 vehicleController.createVehicle(new Vehicle());
             } else {
-                System.out.println("Vehicle 스케줄러 건너뛰기");
+//                System.out.println("Vehicle 스케줄러 건너뛰기");
             }
         } catch (Exception e) {
             e.printStackTrace();
