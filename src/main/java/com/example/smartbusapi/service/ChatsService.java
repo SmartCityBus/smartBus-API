@@ -90,6 +90,7 @@ public class ChatsService {
         return "삭제 성공 : " + vehicleno;
     }
 
+    // 채팅방 삭제 default시간 60분
     private int setTime = 60;
     // 요청 받으면 설정 해놓은 시간(setTime) 마다 해당 차량 번호 채팅방의 0번 인덱스를 삭제
     public String deleteText(String vehicleno) throws ExecutionException, InterruptedException {
@@ -105,11 +106,12 @@ public class ChatsService {
                     // messages가 null이 아니고 비어 있지 않은 경우 0번 인덱스 삭제
                     if (messages != null && !messages.isEmpty()) {
                         messages.remove(0);
-                        if (messages.isEmpty()) {
-                            deleteChats(vehicleno);
-                            System.out.println(vehicleno + "번 채팅방 삭제");
-                            return;
-                        }
+                        // 마지막 채팅까지 삭제되면 채팅방 삭제하기 -> 웹에서 채팅방밖으로 안나가져 채팅만 없앨 예정
+//                        if (messages.isEmpty()) {
+//                            deleteChats(vehicleno);
+//                            System.out.println(vehicleno + "번 채팅방 삭제");
+//                            return;
+//                        }
                         // 업데이트된 메시지 리스트를 다시 저장
                         updateText(chats, vehicleno);
                         System.out.println(vehicleno + "번 메시지 삭제 완료");
